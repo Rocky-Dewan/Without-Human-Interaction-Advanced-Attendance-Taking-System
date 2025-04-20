@@ -1,23 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Attendance System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <canvas id="attendanceChart" width="600" height="10"></canvas>
 </head>
 <body>
-    <h1>Student Attendance</h1>
-    <table border="1">
-        <tr>
-            <th>Student ID</th>
-            <th>Name</th>
-            <th>Attendance</th>
-        </tr>
-        {% for student_id, data in students.items() %}
-        <tr>
-            <td>{{ student_id }}</td>
-            <td>{{ data['name'] }}</td>
-            <td>{{ data.get('attendance', 'absent') }}</td>
-        </tr>
-        {% endfor %}
+    <h1>Real-Time Student Attendance</h1>
+
+    <label for="filter">Filter Attendance:</label>
+    <select id="filter">
+        <option value="all">All</option>
+        <option value="verified">Verified ✅</option>
+        <option value="unverified">Unverified ❌</option>
+    </select>
+    <input type="text" id="search-input" placeholder="Search by student name or barcode...">
+
+    <div style="margin-bottom: 15px;">
+        <button onclick="exportToExcel()">Export to Excel</button>
+        <button onclick="window.print()">Export to PDF</button>
+    </div>
+    
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Barcode</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>Face Verified</th>
+            </tr>
+        </thead>
+        <tbody id="attendance-table">
+            <!-- Populated by JS -->
+        </tbody>
     </table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
